@@ -1,0 +1,3 @@
+rootProject.name = 'DataEnvers'
+include 'contract-core'
+include 'contract-api'
