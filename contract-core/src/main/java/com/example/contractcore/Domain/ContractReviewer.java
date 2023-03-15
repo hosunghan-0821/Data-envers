@@ -1,11 +1,10 @@
 package com.example.contractcore.Domain;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 
@@ -15,31 +14,32 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
-@Table(name = "file")
+@Table(name = "contract_reviewer")
 @Audited
-public class File {
+public class ContractReviewer extends BaseEntity {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "file_id", nullable = false)
+    @Column(name = "reviewer_id", nullable = false)
     private Long id;
 
-    @Column
-    private String originalName;
-
-    @Column
-    private String extensionType;
-
-
+    @ManyToOne
     @JsonIgnore
-    @Audited(targetAuditMode = NOT_AUDITED)
+    @JoinColumn(name="member_id")
+    private Member member;
+
+
+    @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "contract_id")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Contract contract;
+
 
     public void changeContract(Contract contract) {
         this.contract = contract;
-        contract.getFiles().add(this);
+        contract.getContractReviewers().add(this);
     }
-
 }

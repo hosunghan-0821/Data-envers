@@ -1,9 +1,12 @@
 package com.example.contractapi.Controller;
 
 import com.example.contractapi.Service.ContractService;
+import com.example.contractcore.Domain.File;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +20,9 @@ public class ContractController {
     }
 
     @GetMapping("/enver")
-    public void getEnver(){
-        contractService.getEnvers();
+    public List<File> getEnver(){
+        contractService.getEnvers3();
+       return null;
     }
 
 }

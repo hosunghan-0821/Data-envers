@@ -1,10 +1,12 @@
 package com.example.contractcore.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.ModifiedEntityNames;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,18 +27,23 @@ public class Contract extends BaseEntity {
     private Long id;
 
     @Column
+    @Audited(withModifiedFlag = true)
     private String contractName;
 
     @Column
     private int contractNum;
 
+    @JsonIgnore
     @Audited(targetAuditMode = NOT_AUDITED)
     @OneToMany(mappedBy = "contract",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<File> files = new ArrayList<>();
 
+    @JsonIgnore
+    @Audited(targetAuditMode = NOT_AUDITED)
+    @OneToMany(mappedBy = "contract",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<ContractReviewer> contractReviewers = new ArrayList<>();
 
-    public void update(Contract contract) {
-        this.contractName=contract.getContractName();
-        this.contractNum=contract.getContractNum();
+    public void update(String contractName) {
+        this.contractName=contractName;
     }
 }

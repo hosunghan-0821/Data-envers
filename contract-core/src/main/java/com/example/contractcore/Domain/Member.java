@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Audited
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Builder
 public class Member extends MainBaseEntity {
 
     @Id
